@@ -640,8 +640,8 @@
       const frase  = `   Parabéns! Você encontrou o ${tipos} ${valor}!!!...  `;
       const fala   = new SpeechSynthesisUtterance(frase);
       fala.lang    = 'pt-BR';
-      fala.rate    = 1.5;     // velocidade (1 = normal; <1 = mais devagar)
-      fala.pitch   = 2.5;     // tom de voz (>1 = mais agudo, bom para crianças)
+      fala.rate    = 1;     // velocidade (1 = normal; <1 = mais devagar)
+      fala.pitch   = 1.2;     // tom de voz (>1 = mais agudo, bom para crianças)
       window.speechSynthesis.speak(fala);
     }
 
