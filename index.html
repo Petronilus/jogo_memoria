@@ -636,8 +636,8 @@
          engine.runAndWait()
     ═══════════════════════════════════════════════════════════════ */
     function falarPar(valor) {
-      const tipos  = 'aeiouAEIOU'.includes(valor) ? 'letra' : 'número';
-      const frase  = `   Parabéns! Você encontrou o ${tipos} ${valor}!!!...  `;
+      const tipos  = 'aeiouAEIOU'.includes(valor) ? 'a letra' : 'o número';
+      const frase  = `   Parabéns! Você encontrou ${tipos} ${valor}!!!...  `;
       const fala   = new SpeechSynthesisUtterance(frase);
       fala.lang    = 'pt-BR';
       fala.rate    = 1;     // velocidade (1 = normal; <1 = mais devagar)
