@@ -10,19 +10,16 @@
   />
 
   <style>
-    /* ═══════════════════════════════════════════════
-       VARIÁVEIS DE COR
-    ═══════════════════════════════════════════════ */
     :root {
       --bg:           #FFF8EE;
-      --card-back-1:  #7EC8E3;   /* verso da carta — Fase 1 (azul) */
-      --card-back-2:  #B8A8E3;   /* verso da carta — Fase 2 (lilás) */
+      --card-back-1:  #7EC8E3;
+      --card-back-2:  #B8A8E3;
       --card-face:    #FFFFFF;
       --card-matched: #A8E6CF;
       --card-wrong:   #FFB3B3;
       --accent:       #FF8C69;
-      --accent-2:     #9B7FD4;   /* destaque da Fase 2 */
-      --con-color:    #5B8DEF;   /* cor da consoante nas sílabas */
+      --accent-2:     #9B7FD4;
+      --con-color:    #5B8DEF;
       --text:         #3D3D5C;
       --muted:        #9090B0;
       --border:       #E8E0F5;
@@ -30,9 +27,6 @@
       --shadow:       0 4px 18px rgba(100, 100, 180, 0.13);
     }
 
-    /* ═══════════════════════════════════════════════
-       RESET + BASE
-    ═══════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -46,7 +40,6 @@
       padding: 28px 16px 64px;
     }
 
-    /* Cabeçalho compartilhado entre as telas */
     header {
       text-align: center;
       margin-bottom: 24px;
@@ -63,17 +56,12 @@
       margin-top: 4px;
     }
 
-    /* Cada "tela" é uma div com display flex/none controlado por JS */
     #telaConfig, #telaJogo, #telaTransicao {
       flex-direction: column;
       align-items: center;
       width: 100%;
     }
 
-
-    /* ═══════════════════════════════════════════════
-       TELA 1 — CONFIGURAÇÕES
-    ═══════════════════════════════════════════════ */
     .config-box {
       background: white;
       border: 1.5px solid var(--border);
@@ -94,7 +82,6 @@
       color: var(--text);
     }
 
-    /* Três cartões de opção lado a lado */
     .opcoes-modo {
       display: flex;
       gap: 12px;
@@ -118,7 +105,6 @@
       transform: translateY(-2px);
     }
 
-    /* Classe aplicada pelo JS quando o usuário clica numa opção */
     .opcao-card.selecionado {
       border-color: var(--accent);
       background: #FFF3EE;
@@ -135,12 +121,6 @@
       line-height: 1.5;
     }
 
-
-    /* ═══════════════════════════════════════════════
-       TELA 2 — JOGO (Fase 1 e Fase 2)
-    ═══════════════════════════════════════════════ */
-
-    /* Badge "FASE 1" ou "FASE 2" no topo */
     .fase-badge {
       display: inline-block;
       color: white;
@@ -153,7 +133,6 @@
       text-transform: uppercase;
     }
 
-    /* Barra de status: pares, tentativas, tempo, botões */
     .status-bar {
       display: flex;
       gap: 10px;
@@ -182,22 +161,14 @@
       margin-right: 5px;
     }
 
-    /* Tabuleiro: grid dinâmico (colunas definidas pelo JS) */
     #board {
       display: grid;
       gap: 10px;
       width: 100%;
     }
 
-    /* Quando o jogo termina, o tabuleiro fica semi-transparente */
     #board.ended { opacity: 0.35; pointer-events: none; }
 
-
-    /* ═══════════════════════════════════════════════
-       CARTA — FLIP 3D
-       .card-back = verso (o "?")
-       .card-face = frente (letra, número ou sílaba)
-    ═══════════════════════════════════════════════ */
     .card {
       aspect-ratio: 1;
       perspective: 700px;
@@ -213,7 +184,6 @@
       border-radius: var(--radius);
     }
 
-    /* Adicionar .flipped ou .matched gira o card-inner 180° */
     .card.flipped .card-inner,
     .card.matched .card-inner { transform: rotateY(180deg); }
 
@@ -231,7 +201,6 @@
       user-select: none;
     }
 
-    /* Verso azul (Fase 1) */
     .card-back {
       background: var(--card-back-1);
       color: white;
@@ -239,37 +208,31 @@
       transition: filter 0.15s;
     }
 
-    /* Verso lilás (Fase 2) */
     .fase2 .card-back { background: var(--card-back-2); }
 
-    /* Leve escurecimento no hover (só em cartas não viradas) */
     .card:not(.matched):not(.flipped):hover .card-back { filter: brightness(0.9); }
 
-    /* Frente branca com a letra, número ou sílaba */
     .card-face {
       background: var(--card-face);
-      transform: rotateY(180deg);   /* começa invisível; aparece após o flip */
+      transform: rotateY(180deg);
       color: var(--text);
       border: 2px solid var(--border);
       font-size: 1.55rem;
       transition: background 0.3s, border-color 0.3s;
     }
 
-    /* Par encontrado: verde menta permanente */
     .card.matched .card-face {
       background: var(--card-matched);
       border-color: var(--card-matched);
       animation: pop 0.4s ease forwards;
     }
 
-    /* Par errado: vermelho temporário + tremida */
     .card.wrong .card-face {
       background: var(--card-wrong);
       border-color: var(--card-wrong);
       animation: shake 0.35s ease;
     }
 
-    /* Fase 2: consoante em azul, vogal em laranja */
     .card-face .con { color: var(--con-color); }
     .card-face .vog { color: var(--accent); }
     .card-face .silaba { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; }
@@ -286,7 +249,6 @@
       100% { transform: rotateY(180deg) scale(1); }
     }
 
-    /* Tela de fim (desistência ou vitória da Fase 2) */
     .end-screen {
       margin-top: 28px;
       text-align: center;
@@ -301,10 +263,6 @@
     .end-screen h2     { font-size: 1.9rem; font-weight: 900; color: var(--accent); }
     .end-screen p      { font-size: 0.95rem; color: var(--muted); }
 
-
-    /* ═══════════════════════════════════════════════
-       TELA 3 — TRANSIÇÃO ENTRE FASES
-    ═══════════════════════════════════════════════ */
     .transicao-box {
       background: white;
       border: 1.5px solid var(--border);
@@ -325,7 +283,6 @@
     .transicao-box h2 { font-size: 1.8rem; font-weight: 900; color: var(--accent); }
     .transicao-box p  { font-size: 0.93rem; color: var(--muted); line-height: 1.6; }
 
-    /* Prévia das sílabas na tela de transição */
     .silabas-preview {
       display: flex;
       gap: 8px;
@@ -343,7 +300,6 @@
       letter-spacing: 1px;
     }
 
-    /* Legenda de cores das sílabas */
     .legenda-cores {
       display: flex;
       gap: 18px;
@@ -354,10 +310,6 @@
     .legenda-cores .con { color: var(--con-color); }
     .legenda-cores .vog { color: var(--accent); }
 
-
-    /* ═══════════════════════════════════════════════
-       BOTÕES
-    ═══════════════════════════════════════════════ */
     .btn {
       font-family: 'Nunito', sans-serif;
       font-size: 0.92rem;
@@ -382,6 +334,68 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Toggle de narração */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 12px;
+    }
+
+    .toggle-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .toggle-label span.sub {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* O input checkbox fica escondido; o <label> vira o visual */
+    .toggle-switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      background: var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+      transition: transform 0.2s;
+    }
+
+    .toggle-switch input:checked + .toggle-track {
+      background: var(--accent);
+    }
+
+    .toggle-switch input:checked + .toggle-track::after {
+      transform: translateX(20px);
+    }
+
     @media (max-width: 430px) {
       .opcoes-modo { flex-direction: column; }
       header h1    { font-size: 1.7rem; }
@@ -390,11 +404,6 @@
 </head>
 <body>
 
-
-  <!-- ═══════════════════════════════════════════════
-       TELA 1 — CONFIGURAÇÕES
-       Mostrada antes do jogo começar.
-  ═══════════════════════════════════════════════ -->
   <div id="telaConfig">
     <header>
       <h1>🃏 Jogo da Memória</h1>
@@ -404,10 +413,6 @@
     <div class="config-box">
       <h2>Como quer jogar a Fase 1?</h2>
 
-      <!--
-        Três opções de modo.
-        data-modo é lido pelo JS em selecionarModo().
-      -->
       <div class="opcoes-modo">
         <div class="opcao-card" data-modo="vogais" onclick="selecionarModo(this)">
           <div class="opcao-icon">🔤</div>
@@ -431,7 +436,6 @@
         <strong>Desafio das Sílabas!</strong>
       </p>
 
-      <!-- Botão desabilitado até o usuário escolher uma opção -->
       <button class="btn btn-primary" id="btnComecar" disabled onclick="comecarJogo()"
               style="font-size:1.05rem; padding:12px 38px;">
         Começar →
@@ -439,15 +443,8 @@
     </div>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════
-       TELA 2 — JOGO
-       Usada tanto pela Fase 1 quanto pela Fase 2.
-       O JS troca o conteúdo do tabuleiro entre as fases.
-  ═══════════════════════════════════════════════ -->
   <div id="telaJogo" style="display:none">
     <header>
-      <!-- Badge muda de cor: laranja (Fase 1) ou lilás (Fase 2) -->
       <div class="fase-badge" id="faseBadge">Fase 1</div>
       <h1>🃏 Jogo da Memória</h1>
       <p id="subtitulo">Encontre todos os pares!</p>
@@ -466,42 +463,33 @@
         <span class="label">Tempo</span>
         <span id="statusTempo">0s</span>
       </span>
-      <!-- Volta para a tela de configurações -->
       <button class="btn btn-secondary" onclick="irParaConfig()"
               style="font-size:0.82rem; padding:7px 16px;">
         ⚙ Início
       </button>
-      <!-- Desistir: para quem quiser parar sem fechar a aba -->
       <button class="btn btn-secondary" onclick="desistir()" id="btnDesistir"
               style="font-size:0.82rem; padding:7px 16px; color:var(--muted);">
         ✕ Desistir
       </button>
+      <!-- Toggle de narração: visível durante o jogo, ao lado de Desistir -->
+      <label class="toggle-switch" title="Narrar ao virar carta" style="margin-left:2px;">
+        <input type="checkbox" id="toggleNarracao" onchange="narracaoAtiva = this.checked">
+        <span class="toggle-track"></span>
+      </label>
     </div>
 
-    <!--
-      Tabuleiro de cartas.
-      grid-template-columns é definido dinamicamente pelo JS
-      conforme o número de cartas (5 ou 6 colunas).
-    -->
     <div id="board"></div>
 
-    <!-- Aparece quando o jogador desiste ou vence a Fase 2 -->
     <div class="end-screen" id="endScreen">
       <div class="emoji" id="endEmoji"></div>
       <h2 id="endTitulo"></h2>
       <p  id="endMsg"></p>
-      <!-- Botão cujo texto e ação mudam conforme a situação -->
       <button class="btn btn-primary" id="btnEndAction"
               style="margin-top:10px; font-size:1rem; padding:12px 30px;">
       </button>
     </div>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════
-       TELA 3 — TRANSIÇÃO ENTRE FASES
-       Aparece quando a Fase 1 é vencida.
-  ═══════════════════════════════════════════════ -->
   <div id="telaTransicao" style="display:none">
     <div class="transicao-box">
       <div class="big-emoji">⭐</div>
@@ -512,7 +500,6 @@
         Encontre os pares e ouça como cada sílaba soa.
       </p>
 
-      <!-- Prévia das sílabas que vão aparecer na Fase 2 -->
       <div class="silabas-preview">
         <span class="prev-silaba">MA</span>
         <span class="prev-silaba">LA</span>
@@ -522,7 +509,6 @@
         <span class="prev-silaba">…</span>
       </div>
 
-      <!-- Legenda explicando o código de cores -->
       <div class="legenda-cores">
         <span><span class="con">■</span> Consoante</span>
         <span><span class="vog">■</span> Vogal</span>
@@ -542,45 +528,100 @@
 
   <script>
     /* ══════════════════════════════════════════════════════════════
-       CONSTANTES — DECKS DE CARTAS
+       DECKS
     ══════════════════════════════════════════════════════════════ */
-
-    // Fase 1: conjuntos por modo
     const DECK_VOGAIS  = ['a','e','i','o','u'];
     const DECK_NUMEROS = ['0','1','2','3','4','5','6','7','8','9'];
-
-    // Fase 2: 10 sílabas abertas (CV), todas com vogal A
-    // Consoantes: M, L, G, B, P, T, D, N, R, S
-    // Usar só vogal A na primeira exposição é pedagogicamente correto:
-    // a criança foca no som da consoante sem variação de vogal.
     const DECK_SILABAS = ['MA','LA','GA','BA','PA','TA','DA','NA','RA','SA'];
+
+    /*
+      MAPA DE PRONÚNCIA — Fase 2
+      ─────────────────────────────────────────────────────────────
+      Problema raiz: a Web Speech API com lang="pt-BR" lê strings
+      curtas em maiúsculas como SIGLAS, soletradas letra a letra
+      ("gê-á" em vez de "gá"). Mesmo em minúsculas, vogais nasais
+      ficam anasaladas porque o motor aplica contexto fonético da
+      língua (ex.: "na" soa nasal porque em português "na" é
+      preposição com "n" nasal).
+
+      Estratégia adotada (duas camadas):
+        1. Acento agudo na vogal (á) → força vogal ABERTA e sinaliza
+           ao TTS que é uma palavra, não sigla ou abreviação.
+        2. Frase-âncora "palavra: Xá" → ao contextualizar como
+           uma palavra sendo nomeada, o motor abandona o contexto
+           gramatical que causaria nasalização. Por exemplo, sem a
+           âncora "ná" seria lida como a prep. "na" + acento de
+           ênfase; com a âncora, é claramente a sílaba isolada "ná".
+
+      Resultado esperado: todas as 10 sílabas soam abertas e claras.
+    ══════════════════════════════════════════════════════════════ */
+    const PRONUNCIA_SILABA = {
+      'MA': 'má',   // sem âncora já funciona, mas mantemos o acento
+      'LA': 'lá',
+      'GA': 'gá',   // sem acento → "GA" soletrado; com acento → ok
+      'BA': 'bá',
+      'PA': 'pá',
+      'TA': 'tá',
+      'DA': 'dá',
+      'NA': 'ná',   // sem acento → nasal (prep. "na"); com acento → aberto
+      'RA': 'rá',
+      'SA': 'sá'
+    };
+
+    /*
+      MAPA DE PRONÚNCIA — Fase 1 (letras e números)
+      ─────────────────────────────────────────────────────────────
+      Problema: letras isoladas em maiúsculas também são tratadas
+      como siglas em alguns motores. Soluções:
+        • Vogais: enviar diretamente em minúscula → TTS lê o som
+          da vogal corretamente na maioria dos motores pt-BR.
+        • Números: enviar como texto por extenso → evita que "0"
+          seja lido como "zero" ou silenciado em motores ruins.
+        • Consoantes (caso fosse usar): precisariam de âncora
+          similar às sílabas — não se aplica aqui.
+    ══════════════════════════════════════════════════════════════ */
+    const PRONUNCIA_FASE1 = {
+      'a': 'á',   // acento garante vogal aberta, não artigo
+      'e': 'ê',
+      'i': 'i',
+      'o': 'ó',
+      'u': 'u',
+      '0': 'zero',
+      '1': 'um',
+      '2': 'dois',
+      '3': 'três',
+      '4': 'quatro',
+      '5': 'cinco',
+      '6': 'seis',
+      '7': 'sete',
+      '8': 'oito',
+      '9': 'nove'
+    };
 
 
     /* ══════════════════════════════════════════════════════════════
        ESTADO DO JOGO
-       (Equivalem às variáveis locais da função jogar() no Python)
     ══════════════════════════════════════════════════════════════ */
-    let cartas           = [];     // array com os valores de cada carta
-    let revelado         = [];     // revelado[i] = true → par encontrado permanentemente
-    let p1               = null;   // índice da 1ª carta escolhida
-    let p2               = null;   // índice da 2ª carta escolhida
+    let cartas           = [];
+    let revelado         = [];
+    let p1               = null;
+    let p2               = null;
     let paresEncontrados = 0;
     let totalPares       = 0;
     let tentativas       = 0;
     let segundos         = 0;
     let timerID          = null;
-    let esperando        = false;  // trava cliques durante animações
+    let esperando        = false;
 
-    let faseAtual = 1;             // 1 ou 2
-    let modoJogo  = null;          // 'vogais' | 'numeros' | 'tudo'
+    let faseAtual = 1;
+    let modoJogo  = null;
+    let narracaoAtiva = true;   // lida do toggle antes de iniciar o jogo
 
 
     /* ══════════════════════════════════════════════════════════════
        NAVEGAÇÃO ENTRE TELAS
-       Cada "tela" é uma <div>; apenas uma fica visível por vez.
     ══════════════════════════════════════════════════════════════ */
     function mostrarTela(id) {
-      // Em Python seria: limpar terminal + imprimir nova tela
       ['telaConfig', 'telaJogo', 'telaTransicao'].forEach(telaId => {
         document.getElementById(telaId).style.display =
           (telaId === id) ? 'flex' : 'none';
@@ -596,13 +637,11 @@
     /* ══════════════════════════════════════════════════════════════
        TELA DE CONFIGURAÇÕES
     ══════════════════════════════════════════════════════════════ */
-
-    // Chamado quando o usuário clica numa das três opções
     function selecionarModo(el) {
       document.querySelectorAll('.opcao-card').forEach(c => c.classList.remove('selecionado'));
       el.classList.add('selecionado');
-      modoJogo = el.dataset.modo;                                  // lê o atributo data-modo
-      document.getElementById('btnComecar').disabled = false;      // desbloqueia o botão
+      modoJogo = el.dataset.modo;
+      document.getElementById('btnComecar').disabled = false;
     }
 
     function comecarJogo() {
@@ -614,20 +653,16 @@
 
     /* ══════════════════════════════════════════════════════════════
        MONTAGEM DO DECK
-       Equivale a embaralhar() do Python — adaptado por fase e modo.
     ══════════════════════════════════════════════════════════════ */
     function buildDeck(fase) {
       let base;
       if (fase === 2) {
-        base = DECK_SILABAS;                                       // Fase 2 sempre usa sílabas
+        base = DECK_SILABAS;
       } else if (modoJogo === 'vogais')  { base = DECK_VOGAIS;  }
         else if (modoJogo === 'numeros') { base = DECK_NUMEROS; }
-        else { base = [...DECK_VOGAIS, ...DECK_NUMEROS]; }         // 'tudo'
+        else { base = [...DECK_VOGAIS, ...DECK_NUMEROS]; }
 
-      // Python: cartas = base * 2 → duplica para criar os pares
       const deck = [...base, ...base];
-
-      // Fisher-Yates ≈ random.shuffle do Python
       for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -635,22 +670,19 @@
       return deck;
     }
 
-    // Número de colunas do grid baseado na quantidade de cartas
     function calcularColunas(n) {
-      if (n === 10) return 5;   // 2 linhas × 5 colunas
-      if (n === 20) return 5;   // 4 linhas × 5 colunas
-      return 6;                  // 5 linhas × 6 colunas (30 cartas)
+      if (n === 10) return 5;
+      if (n === 20) return 5;
+      return 6;
     }
 
 
     /* ══════════════════════════════════════════════════════════════
-       INICIAR FASE (1 ou 2)
-       Equivale a chamar jogar() do zero no Python.
+       INICIAR FASE
     ══════════════════════════════════════════════════════════════ */
     function iniciarFase(fase) {
       faseAtual = fase;
 
-      // Python: revelado = [False] * tamanho
       cartas           = buildDeck(fase);
       revelado         = new Array(cartas.length).fill(false);
       p1               = null;
@@ -661,7 +693,6 @@
       esperando        = false;
       segundos         = 0;
 
-      // Configura o grid dinamicamente
       const cols   = calcularColunas(cartas.length);
       const mxW    = cols === 5 ? '460px' : '552px';
       const board  = document.getElementById('board');
@@ -669,11 +700,13 @@
       board.style.maxWidth = mxW;
       board.classList.remove('ended');
 
-      // Esconde tela de fim
       document.getElementById('endScreen').classList.remove('show');
       document.getElementById('btnDesistir').disabled = false;
 
-      // Atualiza badge e subtítulo conforme a fase
+      // Narração: desligada por padrão na Fase 1, ligada automaticamente na Fase 2
+      narracaoAtiva = (fase === 2);
+      document.getElementById('toggleNarracao').checked = narracaoAtiva;
+
       const isF2 = fase === 2;
       const badge = document.getElementById('faseBadge');
       badge.textContent        = `Fase ${fase}`;
@@ -682,7 +715,6 @@
         ? 'Encontre os pares de sílabas! 🔊 Ouça cada uma ao virar!'
         : 'Encontre todos os pares de letras e números!';
 
-      // Timer
       clearInterval(timerID);
       timerID = setInterval(() => {
         segundos++;
@@ -701,17 +733,6 @@
 
     /* ══════════════════════════════════════════════════════════════
        RENDERIZAR TABULEIRO
-       Equivale a mostrarTab() do Python — aqui constroímos HTML
-       ao invés de usar print().
-
-       Python:
-         for j in range(0, tamanho, 6):
-           for i in range(6):
-             idx = i + j
-             if revelado[idx] or idx == pos1 or idx == pos2:
-               print(f"{idx+1}: {cartas[idx]}")
-             else:
-               print(f"{idx+1}: ?")
     ══════════════════════════════════════════════════════════════ */
     function renderBoard() {
       const board = document.getElementById('board');
@@ -720,15 +741,13 @@
       for (let idx = 0; idx < cartas.length; idx++) {
         const card = document.createElement('div');
         card.className = 'card';
-        if (faseAtual === 2) card.classList.add('fase2');   // verso lilás
+        if (faseAtual === 2) card.classList.add('fase2');
 
         card.dataset.idx = idx;
 
-        if (revelado[idx])               card.classList.add('matched');
+        if (revelado[idx])                 card.classList.add('matched');
         else if (idx === p1 || idx === p2) card.classList.add('flipped');
 
-        // Na Fase 2: consoante em azul, vogal em laranja
-        // Na Fase 1: apenas a letra ou número
         let faceContent;
         if (faseAtual === 2) {
           faceContent = `<span class="silaba">` +
@@ -753,87 +772,75 @@
 
     /* ══════════════════════════════════════════════════════════════
        ESCOLHER CARTA
-       Equivale a escolher_carta() + parte do while em jogar().
-
-       Python:
-         def escolher_carta(tamanho, revelado, p1=None):
-           while True:
-             p = int(input(...)) - 1
-             if p >= tamanho or p < 0:     continue  ← inválido
-             elif p == p1 or revelado[p]:  continue  ← inválido
-             else: return p
     ══════════════════════════════════════════════════════════════ */
     function escolherCarta(idx) {
-      if (esperando)     return;   // aguardando resultado da jogada anterior
-      if (revelado[idx]) return;   // elif revelado[p] → ignorar
-      if (idx === p1)    return;   // elif p == p1     → ignorar
+      if (esperando)     return;
+      if (revelado[idx]) return;
+      if (idx === p1)    return;
 
       if (p1 === null) {
-        // ── 1ª escolha ──────────────────────────────
         p1 = idx;
         flipCarta(idx);
-
       } else {
-        // ── 2ª escolha → verificar par ──────────────
         p2 = idx;
         flipCarta(idx);
         tentativas++;
         atualizarStatus();
         esperando = true;
-        setTimeout(verificarPar, 900);   // delay para ver a carta antes de verificar
+        setTimeout(verificarPar, 900);
       }
     }
 
     function flipCarta(idx) {
       const el = document.querySelector(`.card[data-idx="${idx}"]`);
-      if (el) {
-        el.classList.add('flipped');
-        // ── FASE 2: fala a sílaba a cada virada de carta ──────────
-        // Este é o principal recurso educativo: reforço fônico imediato.
-        // Cada vez que a criança vira uma carta, ouve o som da sílaba.
-        if (faseAtual === 2) falarTexto(cartas[idx], 0.75, 1.2);
+      if (!el) return;
+      el.classList.add('flipped');
+
+      // Narração ao virar: só ocorre se o toggle estiver ligado
+      if (!narracaoAtiva) return;
+
+      if (faseAtual === 2) {
+        const som = PRONUNCIA_SILABA[cartas[idx]] || cartas[idx].toLowerCase();
+        falarTexto(som, 0.75, 1.2);
+      } else {
+        const som = PRONUNCIA_FASE1[cartas[idx]] || cartas[idx];
+        falarTexto(som, 0.85, 1.15);
       }
     }
 
 
     /* ══════════════════════════════════════════════════════════════
        VERIFICAR PAR
-       Equivale ao if/else dentro do while em jogar() no Python:
-
-       Python:
-         if cartas[p1] == cartas[p2]:
-             revelado[p1] = True
-             revelado[p2] = True
-             pares_encontrados += 1
-         else:
-             (antes: pedia confirmação — agora vira de volta só)
     ══════════════════════════════════════════════════════════════ */
     function verificarPar() {
       if (cartas[p1] === cartas[p2]) {
-        // ── ACERTO ──────────────────────────────────────────────
-        revelado[p1] = true;    // revelado[p1] = True
-        revelado[p2] = true;    // revelado[p2] = True
-        paresEncontrados++;     // pares_encontrados += 1
+        revelado[p1] = true;
+        revelado[p2] = true;
+        paresEncontrados++;
 
         marcarMatchado(p1);
         marcarMatchado(p2);
 
-        // Na Fase 2: celebra em voz com a sílaba encontrada
         if (faseAtual === 2) {
-          setTimeout(() => falarTexto(`Você encontrou ${cartas[p1]}!`, 0.88, 1.15), 350);
+          const som = PRONUNCIA_SILABA[cartas[p1]] || cartas[p1].toLowerCase();
+          setTimeout(() => falarTexto(`Você encontrou a sílaba ${som}!`, 0.88, 1.15), 350);
+        } else {
+          const som    = PRONUNCIA_FASE1[cartas[p1]] || cartas[p1];
+          // Prefixo dinâmico: vogais/letras → "a letra"; números → "o número"
+          const ehNum  = DECK_NUMEROS.includes(cartas[p1]);
+          const prefixo = ehNum ? 'o número' : 'a letra';
+          setTimeout(() => falarTexto(`Você encontrou ${prefixo} ${som}!`, 0.88, 1.15), 350);
         }
 
         p1 = null; p2 = null;
         esperando = false;
         atualizarStatus();
 
-        // Python: if pares_encontrados >= total_pares:
         if (paresEncontrados >= totalPares) {
           setTimeout(onJogoCompleto, 500);
         }
 
       } else {
-        // ── ERRO: cartas ficam vermelhas e viram de volta sozinhas ──
         marcarErrado(p1);
         marcarErrado(p2);
         setTimeout(() => {
@@ -853,12 +860,8 @@
       clearInterval(timerID);
 
       if (faseAtual === 1) {
-        // Fase 1 vencida → tela de transição para a Fase 2
-        // Python: print("🏆 Parabéns! Todos os pares encontrados!")
         mostrarTela('telaTransicao');
-
       } else {
-        // Fase 2 vencida → tela de vitória final 🏆
         const es  = document.getElementById('endScreen');
         const btn = document.getElementById('btnEndAction');
 
@@ -878,7 +881,7 @@
 
 
     /* ══════════════════════════════════════════════════════════════
-       DESISTIR — botão discreto para quem quiser parar
+       DESISTIR
     ══════════════════════════════════════════════════════════════ */
     function desistir() {
       if (paresEncontrados >= totalPares) return;
@@ -928,26 +931,17 @@
 
     /* ══════════════════════════════════════════════════════════════
        ÁUDIO — Web Speech API
-       Ativa automaticamente na Fase 2 (flipCarta + ao acertar).
-       Para ativar na Fase 1 também, remova o "if (faseAtual === 2)"
-       em flipCarta().
-
-       Equivalente Python (biblioteca pyttsx3):
-         engine = pyttsx3.init()
-         engine.say(texto)
-         engine.runAndWait()
     ══════════════════════════════════════════════════════════════ */
     function falarTexto(texto, rate = 0.9, pitch = 1.1) {
-      window.speechSynthesis.cancel();                  // cancela fala anterior
+      window.speechSynthesis.cancel();
       const fala  = new SpeechSynthesisUtterance(texto);
       fala.lang   = 'pt-BR';
-      fala.rate   = rate;    // 0.75 para sílabas (mais devagar = mais claro para crianças)
-      fala.pitch  = pitch;   // >1 = mais agudo (voz infantil)
+      fala.rate   = rate;
+      fala.pitch  = pitch;
       window.speechSynthesis.speak(fala);
     }
 
 
-    /* ── INÍCIO: abre na tela de configurações ── */
     mostrarTela('telaConfig');
   </script>
 </body>
